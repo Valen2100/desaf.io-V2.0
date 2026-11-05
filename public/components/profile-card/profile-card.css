@@ -1,0 +1,81 @@
+.profile-name-pfp-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-width: 150px;
+}
+
+.profile-picture {
+  width: 100px;
+  aspect-ratio: 1;
+  
+  border-radius: 50%;
+  margin: 0;
+  overflow: hidden;
+  background-color: #ffffff;
+}
+
+.profile-picture img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-name{
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.profile-card{
+  display: flex;
+  align-items: center;
+  gap: 10px; 
+  width: 100%; 
+
+  border-radius: 10px;
+  padding: 10px;
+  overflow: hidden;
+  background-color: rgb(255, 160, 75);
+}
+
+
+/* barra de nivel*/
+
+.level-container{
+  display: flex;
+  flex-direction: column;
+  width: auto;
+
+  margin: 0;
+  width: 100%;
+  flex-grow: 1;
+  flex-shrink: 1;
+  
+}
+
+.level-bar{
+  width: 100%;
+  height: 20px;
+  background-color: #cfcfcf;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 0;
+}
+
+.level-score{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0;
+}
+
+
+.level-score .xp-value-current,
+.level-score .xp-value-max {
+  font-size: 15px;
+  margin: 0;
+}
+

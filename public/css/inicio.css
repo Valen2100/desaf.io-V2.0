@@ -1,0 +1,47 @@
+.contenedor-dual {
+  /* 10% header, 4% padding header y 
+  el resto es para este contenedor*/
+  --altura: 86vh;
+
+  height: var(--altura);
+  display: flex;
+}
+
+.contenedor-izq {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  flex-wrap: wrap;
+  height: var(--altura);
+  border: 20px solid transparent;
+  width: 50vw;
+  background-color: rgb(75, 171, 255);
+  a {
+    text-decoration: none;
+    color: black;
+  }
+}
+
+.texto-cont-izq {
+  color: black;
+  font-size: 8vw;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.contenedor-izq button {
+  padding: 1vw;
+  margin-top: 3vh;
+  border-radius: 10px;
+  border-color: rgb(139, 87, 42);
+  background-color: rgb(255, 160, 75);
+  font-size: 2vw;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.contenedor-der {
+  box-sizing: border-box;
+  border: 5vw solid transparent;
+  height: var(--altura);
+  width: 50vw;
+}
