@@ -1,6 +1,6 @@
 # desaf.io-V2.0
 
-en public van los archivos accesibles por todos. evitar
+ESTRUCTURA VIEJA NO USAR.
 
 Para iniciar el debug
 en linux
