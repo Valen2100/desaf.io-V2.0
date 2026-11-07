@@ -1,7 +1,7 @@
 .laberinto {
   --n: 4;
-  --tam: calc(40rem/var(--n));        /* tamaño de cada cuadrado */
-  --pared: calc(3rem/var(--n));       /* grosor de las paredes */
+  --tam: calc(65vh/var(--n));        /* tamaño de cada cuadrado */
+  --pared: calc(3vh/var(--n));       /* grosor de las paredes */
   --color: #222;
 
   display: grid;

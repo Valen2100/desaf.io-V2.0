@@ -1,8 +1,8 @@
 // posiblemente se divida en dos .js: uno para todos los desafios 
 // y otros para cada desafio en particular
 
-function generarLaberinto() {
-    let n = 16; //Tamanio de la cuadricula del laberinto
+function generarLaberinto(n) {
+    
     let casillas = new Map(); // El mapa tiene una key con el formato 'x-y' que marca las coordenas de la casilla
     // y el resultado almacena un arreglo de 4 elementos donde cada uno representa una casilla adyacente y su valor
     // si hay o no una pared, 0: pared, 1: entrada, [derecha, izquierda, superior, inferior]
@@ -113,7 +113,9 @@ function estructuraBase() {
     // el template base de cada desafio (por ejemplo, un template para el laberinto, otro para el buscaminas y asi)
 }
 
-document.getElementById("empezar").addEventListener("click", generarLaberinto);
+document.getElementById("empezar4").addEventListener("click", () => generarLaberinto(4));
+document.getElementById("empezar8").addEventListener("click", () => generarLaberinto(8));
+document.getElementById("empezar16").addEventListener("click", () => generarLaberinto(16));
 
 // cambiar despues de tener generacion de laberinto
 /*function empezarDesafio() {
