@@ -1,0 +1,56 @@
+/*
+Colores clave (complementario):
+  naranjon: rgb(255, 160, 75)
+  celestito: rgb(75, 171, 255)
+
+Oscuros:
+  azul marino: rgb(0, 30, 58)
+*/
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: rgb(0, 30, 58);
+  font-family: Arial, sans-serif;
+}
+
+.header-pagina {
+  display: flex;
+  height: 10vh;
+  padding: 2vh;
+  padding-inline: 4vw;
+  background-color: rgb(255, 160, 75);
+  font-size: large;
+  text-decoration: none;
+}
+
+.header-pagina .logo {
+  background-color: rgb(0, 30, 58);
+  padding: 1vw;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  color: rgb(255, 160, 75);
+  border-radius: 5px;
+}
+
+.header-pagina a {
+  text-decoration: none;
+  color: black;
+}
+
+.header-pagina nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.header-pagina ul {
+  display: flex;
+  justify-content: space-around;
+  list-style-type: none;
+}
+
+.header-pagina li {
+  padding: 0.5vw;
+  background-color: rgb(75, 171, 255);
+  border-radius: 5px;
+}

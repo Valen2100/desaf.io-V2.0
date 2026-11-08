@@ -1,0 +1,84 @@
+.contenedor-dual {
+  /* 10% header, 4% padding header y 
+  el resto es para este contenedor*/
+  --altura: 86vh;
+
+  height: var(--altura);
+  display: flex;
+}
+
+.contenedor-izq {
+  box-sizing: border-box;
+  display: flex;
+  /* align-items: center; */
+  justify-content: center;
+  flex-wrap: wrap;
+  height: var(--altura);
+  border: 20px solid transparent;
+  width: 80vw;
+  background-color: rgb(75, 171, 255);
+}
+
+/* no se usa jugador1.html */
+/* .texto-cont-izq {
+  color: black;
+  font-size: 8vw;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+} */
+
+/* no se usa en jugador1.html */
+/* .contenedor-izq button {
+  padding: 1vw;
+  margin-top: 3vh;
+  border-radius: 5%;
+  border-color: rgb(139, 87, 42);
+  background-color: rgb(255, 160, 75);
+  font-size: 2vw;
+  font-family: Arial, Helvetica, sans-serif;
+} */
+
+.contenedor-der {
+  box-sizing: border-box;
+  border: 5vw solid transparent;
+  height: var(--altura);
+  width: 50vw;
+}
+
+.profile-data-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  
+}
+
+.profile-data-container > *{
+  color: #000000;
+}
+
+.profile-header{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+   
+  width: 100%;
+  overflow: hidden;
+}
+
+.profile-stats-container{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+
+  justify-content: space-between;
+  margin: 0;
+  height: 200px;
+  flex-grow: 1;
+  flex-shrink: 1;
+  
+}
+
+
+
+

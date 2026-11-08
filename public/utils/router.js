@@ -1,0 +1,5 @@
+const router = [];
+
+function startRouter() {
+
+}
