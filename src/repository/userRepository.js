@@ -14,6 +14,7 @@ const hashPassword = async (password) => {
     throw new HttpError('INTERNAL_SERVER_ERROR', { message: 'Error al hashear la contraseña' });
   }
 }
+
 /**
  * funcion para crear un usuario
  * @param {Object} user - objeto con los datos del usuario {username, password}
