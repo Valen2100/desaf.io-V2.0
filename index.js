@@ -11,6 +11,7 @@ app.use(generalRoutes);
 
 
 app.listen(port, () => {
+  console.log(`time: ${new Date().toISOString()}`);
   console.log(`Server is running on http://localhost:${port}`);
 });
 
