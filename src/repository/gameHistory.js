@@ -8,8 +8,44 @@ import { HttpError } from "../http/HttpError";
  * ]
  * fecha a definir formato
  */
-*/
+
 const gameHistory = [];
 
 export function addGameHistory(game) {
+
+  const newGame = {
+    id: gameHistory.length + 1,
+    userId: game.userId,
+    challengeId: game.challengeId,
+    score: game.score,
+    date: game.date,
+    metadata: game.metadata
+  };
+  gameHistory.push(newGame);
+
+  return newGame;
+}
+
+export function getGameHistoryByUserId(userId) {
+  const userGameHistory = gameHistory.filter(game => game.userId === userId);
+  if (userGameHistory.length === 0) {
+    throw new HttpError('NOT_FOUND', { message: 'Historial de juegos no encontrado para el usuario', details: { userId } });
+  }
+  return userGameHistory;
+}
+
+export function getGameHistoryByChallengeId(challengeId) {
+  const challengeGameHistory = gameHistory.filter(game => game.challengeId === challengeId);
+  if (challengeGameHistory.length === 0) {
+    throw new HttpError('NOT_FOUND', { message: 'Historial de juegos no encontrado para el desafío', details: { challengeId } });
+  }
+  return challengeGameHistory;
+}
+
+export function getCompleteGameHistory() {
+  if (gameHistory.length === 0) {
+    throw new HttpError('NOT_FOUND', { message: 'No hay historial de juegos disponible' });
+  }
+  return gameHistory;
+}
 
