@@ -24,4 +24,5 @@ export const ErrorCodes = Object.freeze({
   METHOD_NOT_ALLOWED: { status: httpCodes.METHOD_NOT_ALLOWED, message: 'Método no permitido' },
   CONFLICT: { status: httpCodes.CONFLICT, message: 'Conflicto, el recurso ya existe' },
   INTERNAL_SERVER_ERROR: { status: httpCodes.INTERNAL_SERVER_ERROR, message: 'Error interno del servidor' },
+  BAD_REQUEST: { status: httpCodes.BAD_REQUEST, message: 'Solicitud incorrecta' },
 });

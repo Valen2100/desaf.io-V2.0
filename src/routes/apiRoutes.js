@@ -1,4 +1,7 @@
 import { Router } from 'express';
+import authRoutes from './authRoutes.js';
+import userRoutes from './userRoutes.js';
+
 
 /*
  * Rutas de la API
@@ -6,18 +9,7 @@ import { Router } from 'express';
  */
 const router = Router();
 
-
-
-router.get('/health', (req, res) => {
-  res.json(
-    {
-      status: 'ok',
-      message: "API funcional",
-      port: process.env.PORT || 3000,
-      process: process.env.NODE_ENV || 'development',
-      timestamp: new Date().toISOString(),
-    }
-  );
-});
+router.use('/auth', authRoutes);
+router.use('/users', userRoutes);
 
 export default router;

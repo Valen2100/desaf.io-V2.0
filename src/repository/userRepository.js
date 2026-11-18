@@ -1,100 +1,81 @@
-import { HttpError } from "../http/HttpError.js";
-import argon2 from "argon2";
 
 
 //asumiendo fake db
 const users = [];
-
-const hashPassword = async (password) => {
-  try {
-    const hashedPassword = await argon2.hash(password);
-    return hashedPassword;
-  }
-  catch (err) {
-    throw new HttpError('INTERNAL_SERVER_ERROR', { message: 'Error al hashear la contraseña' });
-  }
-}
+let nextId = 1;
 
 /**
  * funcion para crear un usuario
+ * asume que el service verifico todo y que este usuario es valido para crear
  * @param {Object} user - objeto con los datos del usuario {username, password}
  * @returns {Object} - objeto con los datos del usuario creado
  */
-export async function createUser(user) {
-  if (getUserByUsername(user.username)) {
-    throw new HttpError('VALIDATION', { message: 'El usuario ya existe' });
-  }
-  const hashedPassword = await hashPassword(user.password);
-  const newUser = { id: users.length + 1, username: user.username, password: hashedPassword };
+export function addUser(user) {
+  const newUser = { id: nextId++, username: user.username, password: user.password };
   users.push(newUser);
   return { id: newUser.id, username: newUser.username };
 }
 
-function getUserByUsername(username) {
+export function getUserByUsername(username) {
   const user = users.find(user => user.username === username);
-  if (!user) {
-    throw new HttpError('NOT_FOUND', { message: 'Usuario no encontrado', details: { username } });
-  }
-  return { id: user.id, username: user.username };
+  return user ? { id: user.id, username: user.username } : null;
 }
 
 
 
-function getUserById(id) {
+export function getUserById(id) {
   const user = users.find(user => user.id === id);
+
+  return user ? { id: user.id, username: user.username } : null;
+}
+
+export function getUserByUsernameWithPassword(username) {
+  const user = users.find(user => user.username === username);
+
+  return user ? { ...user } : null;
+}
+
+function getUserByIdInternal(id) {
+  const user = users.find(user => user.id === id);
+
+  return user || null;
+}
+
+// export function getMultipleUser(usersArray) {
+//   const usersFound = usersArray.map(user => {
+//     const id = user.id;
+//     if (id) {
+//       return getUserById(id);
+//     } else {
+//       throw new HttpError('VALIDATION', { message: 'Debe proporcionar un id para cada usuario' });
+//     }
+//   });
+//
+//   return usersFound;
+// }
+
+export function updateUser(newUser) {
+  const user = getUserByIdInternal(newUser.id);
+
   if (!user) {
-    throw new HttpError('NOT_FOUND', { message: 'Usuario no encontrado', details: { id } });
+    return null;
   }
-  return { id: user.id, username: user.username };
-}
 
-
-export function getUser(user) {
-  if (user.id) {
-    return getUserById(user.id);
-  } else if (user.username) {
-    return getUserByUsername(user.username);
-  } else {
-    throw new HttpError('VALIDATION', { message: 'Debe proporcionar un id o un username' });
+  if (newUser.username) {
+    user.username = newUser.username;
   }
-}
-
-
-export function getMultipleUser(usersArray) {
-  if (!Array.isArray(usersArray)) {
-    throw new HttpError('VALIDATION', { message: 'Debe proporcionar un array de usuarios' });
-  }
-  const usersFound = usersArray.map(user => {
-    const id = user.id;
-    if (id) {
-      return getUserById(id);
-    } else {
-      throw new HttpError('VALIDATION', { message: 'Debe proporcionar un id para cada usuario' });
-    }
-  });
-  return usersFound;
-}
-
-export async function updateUser(newUser) {
-  if (!newUser.id) {
-    throw new HttpError('VALIDATION', { message: 'Debe proporcionar un id para actualizar el usuario' });
-  }
-  const user = getUserById(user.id);
-
   if (newUser.password) {
-    user.password = await hashPassword(newUser.password);
+    user.password = newUser.password;
   }
 
-  user.username = newUser.username ?? user.username;
-  user.id = newUser.id ?? user.id;
   return { id: user.id, username: user.username };
 }
 
 export function deleteUser(id) {
-  const userIndex = users.findIndex(user => user.id === id);
-  if (userIndex === -1) {
-    throw new HttpError('NOT_FOUND', { message: 'Usuario no encontrado', details: { id } });
+  const index = users.findIndex(user => user.id === id);
+  if (index === -1) {
+    return null;
   }
-  users.splice(userIndex, 1);
-  return { message: 'Usuario eliminado correctamente' };
+  const deletedUser = users.splice(index, 1)[0];
+  return { id: deletedUser.id, username: deletedUser.username };
 }
