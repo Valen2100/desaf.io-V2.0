@@ -51,7 +51,7 @@ function addPlayerCards(players, template, leaderboardList) {
     li.querySelector('.leaderboard-player-statistics strong').textContent = player.score;
     li.querySelector('.leaderboard-player-rank').textContent = player.rank;
     li.querySelector('.avatar').src = player.img;
-    li.querySelector('a').href = "/profile?player=" + encodeURIComponent(player.name);
+    li.querySelector('a').href = "/profile?player=" + encodeURIComponent(player.id);
     //se asigna el li al leaderboard
     leaderboardList.appendChild(li);
   });
@@ -73,6 +73,7 @@ async function getPlayerData(challengeId = DEFAULT_CHALLENGE_ID, cantidad = 10, 
   const { leaderboard, from: fromIndex } = await res.json();
 
   return leaderboard.map((item, index) => ({
+    id: item.user.id,
     name: item.user.username,
     score: item.score,
     rank: fromIndex + index + 1,
