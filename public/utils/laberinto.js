@@ -10,8 +10,6 @@ function generarLaberinto(n) {
     visitarCasilla(casillas, inicio, n, [0,0,0,0]); // empieza a generar desde la casilla superior izquierda
     let salida = encontrarCallejonMasLejano(casillas, inicio);
 
-    console.log(casillas);
-
     let contLab = document.getElementById("contLaberinto");
     let contLaberinto = document.createElement("div");
     contLaberinto.classList.add("laberinto");
@@ -21,7 +19,7 @@ function generarLaberinto(n) {
         case 16: contLaberinto.classList.add("dieciseis"); break;
         default:
     }
-    contLab.replaceChildren(contLaberinto);
+    
     let c, celda;
     for (let y=n-1; y > -1; y--) {
         for (let x=0; x < n; x++) {
@@ -36,6 +34,22 @@ function generarLaberinto(n) {
         }
     }
     contLaberinto.firstChild.classList.add("inicio");
+    
+    let cuRegre = document.createElement("div");
+    let segundos = 2;
+    cuRegre.classList.add("regresiva");
+    cuRegre.textContent = segundos+1;
+    contLab.replaceChildren(cuRegre);
+    const intervalo = setInterval(() => {
+        if (segundos <= 0) {
+            clearInterval(intervalo);
+            contLab.replaceChildren(contLaberinto);
+            activarMovilidad(casillas, n, salida);
+        } else {
+            cuRegre.textContent = segundos;
+            segundos -= 1;
+        }
+    }, 1000);
 }
 
 function encontrarCallejonMasLejano(mapa, inicio) {
@@ -74,7 +88,6 @@ function encontrarCallejonMasLejano(mapa, inicio) {
 
 function visitarCasilla(mapa, casilla, n, anterior) {
     mapa.set(casilla, anterior);
-    console.log(casilla);
     let adyacente;
     let x, y, indAdy;
     x = +casilla.split('-')[0];
@@ -117,45 +130,43 @@ document.getElementById("empezar4").addEventListener("click", () => generarLaber
 document.getElementById("empezar8").addEventListener("click", () => generarLaberinto(8));
 document.getElementById("empezar16").addEventListener("click", () => generarLaberinto(16));
 
-// cambiar despues de tener generacion de laberinto
-/*function empezarDesafio() {
+function activarMovilidad(celdas, n, salida) {
     let finalizado = false;
-    let celda = document.getElementById("1-1");
-    celda.classList.add("jugador");
-
-    document.addEventListener("keypress", function (event) {
-        if (finalizado) return;
+    let jugador = [0, n-1];
+    let elemJugador = document.createElement("div");
+    elemJugador.classList.add("jugador");
+    let laberinto = document.getElementById("contLaberinto").firstChild;
+    let segundos = 0;
+    const idTimer = setInterval(() => {
+        timer.textContent = segundos.toFixed(2);
+        segundos += 0.01;
+    }, 10);
+    laberinto.firstChild.appendChild(elemJugador);
+    document.addEventListener("keydown", function e (event) {
         if (event.key === "w") {
-            moverJugador(celda, "arriba");
+            finalizado = salida === moverJugador(jugador, [0,0,1,0], celdas, laberinto, n);
         } else if (event.key === "s") {
-            moverJugador(celda, "abajo");
+            finalizado = salida === moverJugador(jugador, [0,0,0,1], celdas, laberinto, n);
         } else if (event.key === "a") {
-            moverJugador(celda, "izquierda");
+            finalizado = salida === moverJugador(jugador, [0,1,0,0], celdas, laberinto, n);
         } else if (event.key === "d") {
-            moverJugador(celda, "derecha");
+            finalizado = salida === moverJugador(jugador, [1,0,0,0], celdas, laberinto, n);
+        }
+        if (finalizado) {
+            document.removeEventListener("keydown", e);
+            clearInterval(idTimer);
         }
     })
 }
 
-function moverJugador(celda, direccion) {
-    let [fila, columna] = celda.id.split("-").map(Number); // Obtiene la fila y columna de la celda actual
-    celda.classList.remove("jugador"); // Remueve la clase "jugador" de la celda actual 
-    let nuevaFila = fila;
-    let nuevaColumna = columna;
-
-    if (direccion === "arriba") {
-        nuevaFila = fila - 1;
-    } else if (direccion === "abajo") {
-        nuevaFila = fila + 1;
-    } else if (direccion === "izquierda") {
-        nuevaColumna = columna - 1;
-    } else if (direccion === "derecha") {
-        nuevaColumna = columna + 1;
+function moverJugador(jugador, direccion, celdas, laberinto, n) {
+    let newPosicion = [jugador[0]+direccion[0]-direccion[1], jugador[1]+direccion[2]-direccion[3]];
+    if (newPosicion[0] < n && newPosicion[1] < n && 0 <= newPosicion[0] && 0 <= newPosicion[1] &&
+        celdas.get(`${jugador[0]}-${jugador[1]}`)[direccion.indexOf(1)] === 1) {
+        let elemJugador = laberinto.children[n*(n - 1 - jugador[1]) + jugador[0]].firstChild;
+        jugador[0] = newPosicion[0];
+        jugador[1] = newPosicion[1];
+        laberinto.children[n*(n - 1 - jugador[1]) + jugador[0]].appendChild(elemJugador);
     }
-
-    let nuevaCelda = document.getElementById(`${nuevaFila}-${nuevaColumna}`);
-    // Verificamos que sea una direccion valida
-    if (direccion === "arriba" && nuevaFila > 0) {
-        if (nuevaCelda.classList.contains(""))
-    }
-}*/
+    return `${jugador[0]}-${jugador[1]}`;
+}

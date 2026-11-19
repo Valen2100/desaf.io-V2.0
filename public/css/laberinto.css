@@ -27,11 +27,16 @@
 .fin    { background: rgb(235, 95, 95); }
 
 .jugador {
-  height: 30px;
-  width: 30px;
-  background-color: black;
+  height: calc(var(--tam) - var(--pared));
+  width: calc(var(--tam) - var(--pared));
+  background-color: rgb(0, 0, 0);
   border-radius: 50%;
   z-index: 5;
+}
+
+.regresiva {
+  font-size: 10vw;
+  color: rgb(36, 105, 255);
 }
 
 .boton-empezar {
