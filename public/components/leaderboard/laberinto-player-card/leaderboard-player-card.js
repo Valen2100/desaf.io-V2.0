@@ -1,13 +1,16 @@
 import { getTemplate, addLinkToHead } from "../../../utils/general.js";
 
-export function loadPlayerCards(objectiveClassName) {
+const AVATARS = ['imagen-perfil-1.png', 'imagen-perfil-2.png', 'imagen-perfil-3.png'];
+const DEFAULT_CHALLENGE_ID = 1; // ID del desafío por defecto
+
+export async function loadPlayerCards(objectiveClassName) {
 
   const leaderboardList = document.querySelector(objectiveClassName ?? ".leaderboard-list");
   if (!leaderboardList) {
     throw new Error(`No se encontró el elemento con classname: ${objectiveClassName}`);
   }
 
-  const players = getPlayerData(); // Fetch player data from the server (copilot vendepatria)
+  const players = await getPlayerData(); //fetch a api
   if (!players || players.length === 0) {
     console.error('No se encontraron jugadores para mostrar en el leaderboard');
     return;
@@ -54,14 +57,25 @@ function addPlayerCards(players, template, leaderboardList) {
   });
 }
 
-function getPlayerData() {
-  // Simulación de datos de jugadores (en un caso real, estos datos podrían provenir de una API o base de datos)
+async function getPlayerData(challengeId = DEFAULT_CHALLENGE_ID, cantidad = 10, from = 0) {
   const getImgUrl = (file) => new URL(`../../../imagenes/${file}`, import.meta.url).href;
-  return [
-    { name: 'Jugador 1', score: 1500, img: getImgUrl('imagen-perfil-1.png'), rank: 1 },
-    { name: 'Jugador 2', score: 1200, img: getImgUrl('imagen-perfil-2.png'), rank: 2 },
-    { name: 'Jugador 3', score: 900, img: getImgUrl('imagen-perfil-3.png'), rank: 3 },
-    { name: 'Jugador 4', score: 800, img: getImgUrl('imagen-perfil-1.png'), rank: 4 },
-    { name: 'Jugador 5', score: 700, img: getImgUrl('imagen-perfil-1.png'), rank: 5 },
-  ];
+
+  const res = await fetch(`/api/challenges/${challengeId}/leaderboard?cantidad=${cantidad}&from=${from}`,
+    {
+      credentials: "same-origin",
+    });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    console.error('Error al pedir el leaderboard:', err.error?.message ?? res.status);
+    return [];
+  }
+
+  const { leaderboard, from: fromIndex } = await res.json();
+
+  return leaderboard.map((item, index) => ({
+    name: item.user.username,
+    score: item.score,
+    rank: fromIndex + index + 1,
+    img: getImgUrl(AVATARS[(item.user.id - 1) % AVATARS.length]),
+  }));
 }

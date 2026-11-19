@@ -1,8 +1,26 @@
-
+import { hash } from '../utils/hash.js';
 
 //asumiendo fake db
 const users = [];
 let nextId = 1;
+
+const seedUsers = [
+  { username: 'fede', password: 'fede12345' },
+  { username: 'juan', password: 'juan1234' },
+  { username: 'valen', password: 'valen1234' },
+  { username: 'fede2', password: 'fede123456' },
+  { username: 'fede3', password: 'fede12345' },
+];
+
+//sirve como carga inicial de usuarios para pruebas, si ya existen no los agrega
+export async function addSeedUsers() {
+  for (const seed of seedUsers) {
+    if (users.some(u => u.username === seed.username)) continue;
+    users.push({ id: nextId++, username: seed.username, password: await hash(seed.password) });
+  }
+  return users.length;
+}
+
 
 /**
  * funcion para crear un usuario

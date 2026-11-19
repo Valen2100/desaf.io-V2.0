@@ -20,10 +20,10 @@ export async function getTemplate(url, templateId) {
   const htmlText = await res.text();
 
   //formatea el texto HTML para que sea legible
-  const document = new DOMParser().parseFromString(htmlText, "text/html");
+  const doc = new DOMParser().parseFromString(htmlText, "text/html");
 
   //obtiene el template del documento HTML
-  const template = document.getElementById(templateId);
+  const template = doc.getElementById(templateId);
 
   //se valida que exista el template, si no existe se lanza un error
   if (!template) {
