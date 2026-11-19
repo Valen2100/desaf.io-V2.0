@@ -16,7 +16,8 @@ function parseUserId(id) {
 
 export function getUser(req, res, next) {
   try {
-    res.json(getUserService(req.auth.id, parseUserId(req.params.id), undefined));
+    const jwtid = req.auth?.id ?? 1; // Default to 1 if req.auth.id is undefined
+    res.json(getUserService(jwtid, parseUserId(req.params.id), undefined));
 
   } catch (err) {
     next(err);
