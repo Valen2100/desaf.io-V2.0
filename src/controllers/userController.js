@@ -5,9 +5,18 @@ import {
   updateUser as updateUserService
 } from "../services/userService.js";
 
+function parseUserId(id) {
+  const intRegex = /^[0-9]\d*$/;
+  const intId = Number(id);
+  if (!intRegex.test(id) || !Number.isInteger(intId)) {
+    throw new HttpError('VALIDATION', { message: 'El id del usuario debe ser un número entero' });
+  }
+  return intId;
+}
+
 export function getUser(req, res, next) {
   try {
-    res.json(getUserService(req.auth.id, req.params.id, undefined));
+    res.json(getUserService(req.auth.id, parseUserId(req.params.id), undefined));
 
   } catch (err) {
     next(err);
@@ -16,7 +25,7 @@ export function getUser(req, res, next) {
 
 export function deleteUser(req, res, next) {
   try {
-    res.json(deleteUserService(req.auth.id, req.params.id, undefined));
+    res.json(deleteUserService(req.auth.id, parseUserId(req.params.id), undefined));
   } catch (err) {
     next(err);
   }
@@ -25,7 +34,7 @@ export function deleteUser(req, res, next) {
 export async function updateUser(req, res, next) {
   try {
     const { username, password } = req.body ?? {};
-    res.json(await updateUserService(req.auth.id, req.params.id, { username, password }));
+    res.json(await updateUserService(req.auth.id, username, password));
   } catch (err) {
     next(err);
   }

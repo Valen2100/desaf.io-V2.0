@@ -19,6 +19,8 @@ export default function errorHandler(err, req, res, next) {
    */
   if (res.headersSent) return next(err);
 
+
+
   // revision de si es error previsto o de js/express
   const isHttpError = err instanceof HttpError;
   const status = isHttpError ? err.status : ErrorCodes.INTERNAL_SERVER_ERROR.status;

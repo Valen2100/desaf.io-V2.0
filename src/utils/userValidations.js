@@ -81,8 +81,7 @@ export function validatePassword(password) {
 
   if (passwordLength < passwordMinLength || passwordLength > passwordMaxLength) {
     throw new HttpError('VALIDATION', {
-      message: `La contraseña debe tener entre ${passwordMinLength} y 
-      ${passwordMaxLength} caracteres`,
+      message: `La contraseña debe tener entre ${passwordMinLength} y ${passwordMaxLength} caracteres`,
       details: { fields: ["password"] }
     });
   }
