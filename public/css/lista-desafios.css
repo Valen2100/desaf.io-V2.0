@@ -1,0 +1,35 @@
+.contenedor-desafios {
+    display: flex;
+    flex-direction: column;
+    margin-inline: 10vw;
+    margin-top: 5vh;
+}
+
+.contenedor-desafio {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 3vh;
+    width: 100%;
+    background-color: rgb(255, 160, 75);
+    border-radius: 10px;
+}
+
+.contenedor-desafio button {
+    font-size: 2vw;
+    background-color: rgb(36, 105, 255);
+    border-radius: 10%;
+}
+
+.contenedor-desafio h2 {
+    font-size: 3lvw;
+    background-color: rgb(36, 105, 255);
+    border-radius: 10px;
+    width: 25%;
+    height: 70%;
+}
+
+.descripcion {
+    width: 50%;
+    font-size: 2lvw;
+}
