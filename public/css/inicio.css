@@ -17,10 +17,6 @@
   border: 20px solid transparent;
   width: 50vw;
   background-color: rgb(75, 171, 255);
-  a {
-    text-decoration: none;
-    color: black;
-  }
 }
 
 .texto-cont-izq {
