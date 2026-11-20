@@ -20,6 +20,7 @@ function generarLaberinto(n) {
         case 4: contLaberinto.classList.add("cuatro"); break;
         case 8: contLaberinto.classList.add("ocho"); break;
         case 16: contLaberinto.classList.add("dieciseis"); break;
+        case 50: contLaberinto.classList.add("cincuenta"); break;
         default:
     }
     
@@ -38,6 +39,7 @@ function generarLaberinto(n) {
     }
     contLaberinto.firstChild.classList.add("inicio");
 
+    document.getElementById("timer").textContent = "0.00";
     let cuRegre = document.createElement("div");
     let segundos = 2;
     cuRegre.classList.add("regresiva");
@@ -139,7 +141,7 @@ function limpiarAnterior() {
 
 document.getElementById("empezar4").addEventListener("click", () => generarLaberinto(4));
 document.getElementById("empezar8").addEventListener("click", () => generarLaberinto(8));
-document.getElementById("empezar16").addEventListener("click", () => generarLaberinto(16));
+document.getElementById("empezar16").addEventListener("click", () => generarLaberinto(50));
 
 function activarMovilidad(celdas, n, salida) {
     let elemJugador = document.createElement("div");

@@ -18,6 +18,7 @@
 .laberinto.cuatro { --n: 4; }
 .laberinto.ocho { --n: 8; }
 .laberinto.dieciseis { --n: 16; }
+.laberinto.cincuenta { --n: 50; }
 
 .celda { box-sizing: border-box; }
 .celda.r { border-right: var(--pared) solid var(--color); }
