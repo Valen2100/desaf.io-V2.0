@@ -1,8 +1,11 @@
 // posiblemente se divida en dos .js: uno para todos los desafios 
 // y otros para cada desafio en particular
+let interRegresiva = null;
+let interTimer = null;
+let keydownEvent = null;
 
 function generarLaberinto(n) {
-    
+    limpiarAnterior();
     let casillas = new Map(); // El mapa tiene una key con el formato 'x-y' que marca las coordenas de la casilla
     // y el resultado almacena un arreglo de 4 elementos donde cada uno representa una casilla adyacente y su valor
     // si hay o no una pared, 0: pared, 1: entrada, [derecha, izquierda, superior, inferior]
@@ -34,15 +37,16 @@ function generarLaberinto(n) {
         }
     }
     contLaberinto.firstChild.classList.add("inicio");
-    
+
     let cuRegre = document.createElement("div");
     let segundos = 2;
     cuRegre.classList.add("regresiva");
     cuRegre.textContent = segundos+1;
     contLab.replaceChildren(cuRegre);
-    const intervalo = setInterval(() => {
+    interRegresiva = setInterval(() => {
         if (segundos <= 0) {
-            clearInterval(intervalo);
+            clearInterval(interRegresiva);
+            interRegresiva = null;
             contLab.replaceChildren(contLaberinto);
             activarMovilidad(casillas, n, salida);
         } else {
@@ -126,37 +130,46 @@ function estructuraBase() {
     // el template base de cada desafio (por ejemplo, un template para el laberinto, otro para el buscaminas y asi)
 }
 
+function limpiarAnterior() { 
+    // Elimina posibles eventos generados por el laberinto anterior
+    clearInterval(interRegresiva);
+    clearInterval(interTimer);
+    document.removeEventListener("keydown", keydownEvent, false);
+}
+
 document.getElementById("empezar4").addEventListener("click", () => generarLaberinto(4));
 document.getElementById("empezar8").addEventListener("click", () => generarLaberinto(8));
 document.getElementById("empezar16").addEventListener("click", () => generarLaberinto(16));
 
 function activarMovilidad(celdas, n, salida) {
-    let finalizado = false;
-    let jugador = [0, n-1];
     let elemJugador = document.createElement("div");
+    let jugador = [0, n-1];
+    keydownEvent = (event) => {
+        let finalizado = false;
+        if (event.key === "ArrowUp" || event.key === "w") {
+            finalizado = salida === moverJugador(jugador, [0,0,1,0], celdas, laberinto, n);
+        } else if (event.key === "ArrowDown" || event.key === "s") {
+            finalizado = salida === moverJugador(jugador, [0,0,0,1], celdas, laberinto, n);
+        } else if (event.key === "ArrowLeft" || event.key === "a") {
+            finalizado = salida === moverJugador(jugador, [0,1,0,0], celdas, laberinto, n);
+        } else if (event.key === "ArrowRight" || event.key === "d") {
+            finalizado = salida === moverJugador(jugador, [1,0,0,0], celdas, laberinto, n);
+        }
+        if (finalizado) {
+            document.removeEventListener("keydown", keydownEvent, false);
+            clearInterval(interTimer);
+            interTimer = null;
+        }
+    }
     elemJugador.classList.add("jugador");
     let laberinto = document.getElementById("contLaberinto").firstChild;
     let segundos = 0;
-    const idTimer = setInterval(() => {
+    interTimer = setInterval(() => {
         timer.textContent = segundos.toFixed(2);
         segundos += 0.01;
     }, 10);
     laberinto.firstChild.appendChild(elemJugador);
-    document.addEventListener("keydown", function e (event) {
-        if (event.key === "w") {
-            finalizado = salida === moverJugador(jugador, [0,0,1,0], celdas, laberinto, n);
-        } else if (event.key === "s") {
-            finalizado = salida === moverJugador(jugador, [0,0,0,1], celdas, laberinto, n);
-        } else if (event.key === "a") {
-            finalizado = salida === moverJugador(jugador, [0,1,0,0], celdas, laberinto, n);
-        } else if (event.key === "d") {
-            finalizado = salida === moverJugador(jugador, [1,0,0,0], celdas, laberinto, n);
-        }
-        if (finalizado) {
-            document.removeEventListener("keydown", e);
-            clearInterval(idTimer);
-        }
-    })
+    document.addEventListener("keydown", keydownEvent, false);
 }
 
 function moverJugador(jugador, direccion, celdas, laberinto, n) {
