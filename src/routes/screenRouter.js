@@ -5,9 +5,9 @@ const router = Router();
 const screensPath = join(import.meta.dirname, '..', '..', 'public', 'screens');
 const publicPath = join(import.meta.dirname, '..', '..', 'public');
 
-router.use('/', express.static(publicPath));
+console.log('desafios screens path:', join(screensPath, 'desafios'));
 router.use('/profile', express.static(join(screensPath, 'profile')));
-router.use('/desafio', express.static(join(screensPath, 'desafio')));
-
+router.use('/desafios', express.static(join(screensPath, 'desafios')));
+router.use('/', express.static(publicPath));
 
 export default router;
